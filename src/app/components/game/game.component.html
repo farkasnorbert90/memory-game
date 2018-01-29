@@ -1,0 +1,26 @@
+<ng-container *ngIf="game">
+
+	<div class="game-info" *ngIf="game.started">
+		<span>Steps: {{game.stepCount.count}}</span>
+		<span *ngIf="game.highscore.ready">Best: {{game.highscore.best}}</span>
+	</div>
+
+	<ng-container *ngIf="!game.ended">
+
+		<div class="card-container">
+			<div class="card" *ngFor="let card of game.cards" [class.selected]="card.selected" [class.paired]="card.paired">
+				<mat-card class="card-handle" (click)="game.selectCard(card)">
+					<div class="card-front" [style.backgroundImage]="'url(assets/img/'+ card.name +'.png)'"></div>
+					<div class="card-back"></div>
+				</mat-card>
+			</div>
+		</div>
+
+	</ng-container>
+
+	<mat-card class="success" *ngIf="game.ended">
+		<p>Congratulations!</p>
+		<p>Your score: {{game.stepCount.count}}</p>
+	</mat-card>
+
+</ng-container>

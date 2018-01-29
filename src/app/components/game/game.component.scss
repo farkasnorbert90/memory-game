@@ -1,0 +1,72 @@
+:host {
+	display: block;
+}
+
+.game-info {
+	padding: 8px 8px;
+	background-color: #eee;
+	span {
+		padding: 0 8px;
+	}
+}
+
+.card-container {
+	padding: 10px;
+}
+
+.card {
+	display: inline-block;
+	width: 120px;
+	height: 120px;
+	padding: 10px;
+	perspective: 800px;
+	transition: .3s transform;
+	.card-handle {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		transition: .3s all;
+		transform-style: preserve-3d;
+		padding: 0;
+		.card-front,
+		.card-back {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.card-front {
+			background-color: #eee;
+			transform: rotateY( 180deg );
+			z-index: 2;
+			background-size: cover;
+			background-position: center;
+		}
+		.card-back {
+			background-color: #9E9E9E;
+		}
+	}
+	&.selected {
+		.card-handle {
+			transform: rotateY( 180deg );
+		}
+	}
+	&.paired {
+		transform: scale(0);
+		.card-handle {
+			transform: rotateY( 180deg );
+		}
+	}
+}
+
+.success {
+	background-color: lightgreen;
+	width: 200px;
+	margin: 20px auto;
+	position: relative;
+	text-align: center;
+	padding: 32px;
+	font-size: 18px;
+	font-weight: 500;
+}

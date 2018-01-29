@@ -2,13 +2,15 @@ import { CardService } from "../services/card.service";
 import { Observable } from "rxjs/Observable";
 import { StepCount } from "./step-count";
 import { Highscore } from "./highscore";
+import "rxjs/add/observable/interval";
+import "rxjs/add/operator/take";
 
 export class GameSession{
 
 	stepCount = new StepCount();
 	highscore = new Highscore();
 	private _started = false;
-	private _ended = true;
+	private _ended = false;
 	private _cards = [];
 	private _selectedCards = [];
 	private _pending = false;
@@ -19,11 +21,11 @@ export class GameSession{
 	}
 
 	get ended() {
-		return this.ended;
+		return this._ended;
 	}
 
-	get pending() {
-		return this._pending;
+	get started() {
+		return this._started;
 	}
 
 	constructor(
@@ -34,6 +36,7 @@ export class GameSession{
 		this._started = true;
 		this._ended = false;
 		this._cards = this.cardService.getCards(difficulty);
+		this.stepCount.reset();
 	}
 
 	selectCard(card) {
@@ -43,8 +46,6 @@ export class GameSession{
 		if (this._pending) {
 			return false;
 		}
-		//const index = card.index;
-		//this._cards[index].selected = !this._cards[index].selected;
 		card.selected = !card.selected;
 		if (card.selected) {
 			this.stepCount.increase();
@@ -66,7 +67,7 @@ export class GameSession{
 					this._cards[this._selectedCards[0]].selected = false;
 					this._cards[this._selectedCards[1]].selected = false;
 					this._selectedCards = [];
-					let cardsLeft = this.cards.filter(card => !card.paired).length;
+					const cardsLeft = this.cards.filter(card => !card.paired).length;
 					if (cardsLeft === 0) {
 						this.highscore.newScore(this.stepCount.count);
 						this._ended = true;

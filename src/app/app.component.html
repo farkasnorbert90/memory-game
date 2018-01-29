@@ -8,24 +8,6 @@
 	</div>
 </mat-toolbar>
 
-<ng-container *ngIf="!ended">
-
-	<div class="game-info">
-		<span>Steps: {{stepCount.count}}</span>
-		<span *ngIf="highscore.ready">Best: {{highscore.best}}</span>
-	</div>
-
-	<div class="card-container">
-		<div class="card" *ngFor="let card of cards" [class.selected]="card.selected" [class.paired]="card.paired">
-			<mat-card class="card-handle" (click)="selectCard(card)">
-				<div class="card-front" [style.backgroundImage]="'url(assets/img/'+ card.name +'.png)'"></div>
-				<div class="card-back"></div>
-			</mat-card>
-		</div>
-	</div>
-
+<ng-container *ngIf="game">
+	<app-game [game]="game"></app-game>
 </ng-container>
-
-<div class="success" *ngIf="ended">
-	Congratulations! Your score: {{stepCount.count}}
-</div>
